@@ -11,25 +11,25 @@ const Home = ({ navigation }) => {
   //   const [name, setName] = useState('')
     const [isShown, setIsShown] = useState(false);
 
-    useEffect(() => {
-      getData();
-    }, []);
+    // useEffect(() => {
+    //   getData();
+    // }, []);
 
-    const getData = async () => {
-      try {
-        const userData = await AsyncStorage.getItem('userData');
-        console.log("yaha", userData)
-        // const name = JSON.parse(userData).Name;
-        // setName(name)
-        // console.log("Data", name)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-  const navigate = () => {
-    navigation.navigate('Signup')
-    // setIsShown(false)
-  }
+  //   const getData = async () => {
+  //     try {
+  //       const userData = await AsyncStorage.getItem('userData');
+  //       console.log("yaha", userData)
+  //       // const name = JSON.parse(userData).Name;
+  //       // setName(name)
+  //       // console.log("Data", name)
+  //     } catch (error) {
+  //       console.log(error)
+  //     }
+  //   }
+  // const navigate = () => {
+  //   navigation.navigate('Signup')
+  //   // setIsShown(false)
+  // }
 
   // const removeData = async () => {
   //   try {

@@ -17,14 +17,15 @@ export default function Signup({ navigation }) {
     const [secure, setSecure] = useState(true)
     const [name, setName] = useState('')
     const [nameError, setNameError] = useState(false)
-    const [contact,setContact] = useState('')
-    const [age,setAge] = useState('')
-    const [password,setPassword] = useState('')
-    const [data,setData] = useState([])
+    const [contact, setContact] = useState('')
+    const [age, setAge] = useState('')
+    const [password, setPassword] = useState('')
+    const [data, setData] = useState([]);
+    const [isUpdate,setIsUpdate] = useState(false)
 
-    const[get,setGet] = useState([]);
+    const [get, setGet] = useState([]);
 
-    const[emailError,setEmailError] = useState(false)
+    const [emailError, setEmailError] = useState(false)
 
     const [error, setError] = useState({ field: '', message: '' });
     const [econ, setEcon] = useState({ field: '', message: '' });
@@ -53,13 +54,13 @@ export default function Signup({ navigation }) {
         contactError: ""
     })
     useEffect(() => {
-        getData();
-      }, []);
-    const getData = async()=>{
-         await AsyncStorage.getItem('userData').then(value =>{
-            console.log("value aayi",value)
+        // getData();
+    }, []);
+    const getData = async () => {
+        await AsyncStorage.getItem('userData').then(value => {
+            console.log("value aayi", value)
             setGet(true)
-         })
+        })
 
     }
 
@@ -78,7 +79,7 @@ export default function Signup({ navigation }) {
         if (!strongRegex.test(email)) {
             setState({ emailError: "Email contains proper format " });
             return false;
-        } 
+        }
         else {
             setState({ emailError: "" });
         }
@@ -130,29 +131,48 @@ export default function Signup({ navigation }) {
         ageValidator();
         passwordValidator();
         nameValidator();
-        if (name.length==0 || email.length == 0 || employeeid.length == 0 || salary.length == 0 || designation.length == 0) {
+        setIsUpdate(false);
+
+        if (name.length == 0 || email.length == 0 || employeeid.length == 0 || salary.length == 0 || designation.length == 0) {
             alert("please fill the full form  ")
         } else {
             try {
-                var UserInfo = {
-                    Name: name,
-                    Email: email,
-                    EmployeeId: employeeid,
-                    Salary: salary,
-                    Disignation: designation,
-                   
-
-                }
-                setIsShown(true)
-                await AsyncStorage.setItem('userData', JSON.stringify(UserInfo))
-                console.log("userInfo", UserInfo)
+                // var UserInfo = {
+                //     Name: name,
+                //     Email: email,
+                //     EmployeeId: employeeid,
+                //     Salary: salary,
+                //     Disignation: designation,
+               data.push({
+                Name: name,
+                Email: email,
+                EmployeeId: employeeid,
+                Salary: salary,
+                Disignation: designation,
+            }) 
+            
+                //  }
+                // setIsShown(true)
+                await AsyncStorage.setItem('userData', JSON.stringify(data))
+                // setData(data)
+                // console.log("userInfo", UserInfo)
                 alert("Done!")
-                setData(UserInfo)
-                console.log("user",UserInfo)
-                navigation.navigate('Home')
-                data.push(UserInfo)
-                console.log("data is ",data)
-                console.log("done") 
+                // setData(UserInfo)
+                // console.log("user", UserInfo)
+                // data.push( {
+                //     Name: name,
+                //     Email: email,
+                //     EmployeeId: employeeid,
+                //     Salary: salary,
+                //     Disignation: designation,
+
+
+                // })
+                // setData(arr)
+                console.log("data is ", data)
+                // navigation.navigate('Home')
+
+                // console.log("done")
             } catch (error) {
                 console.log("error", error)
             }
@@ -179,79 +199,79 @@ export default function Signup({ navigation }) {
     //   const handleErrors =(errorMessage,email)=>{
     //     setEmailerror(prevState =>({...prevState, [email]: errorMessage}));
     //   }
-const validateion = async() => {
-    const strongRegex = new RegExp("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
-    const re = /^[0-9\b]+$/;
+    const validateion = async () => {
+        const strongRegex = new RegExp("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
+        const re = /^[0-9\b]+$/;
 
-    // setEmailError(false)
-    setNameError(false)
-    if(!name) {
-        setNameError(true)
+        // setEmailError(false)
+        setNameError(false)
+        if (!name) {
+            setNameError(true)
+        }
+
+        if (strongRegex.test(email) === false) {
+            setEmail(true)
+            // return false;
+            setNameError(true)
+        }
+        else {
+            setEmail(true)
+            console.log("email is correct")
+        }
+
+        // else if (password.length < 8){
+        //     setNameError(true)
+        // }
+
+        // else if (!re.test(age)) {
+
+        //     setNameError(true)
+        // }
+
+        // else if (!re.test(contact) || contact.length > 10 || contact.length < 10) {
+
+        //     setNameError(true)
+        // }
+
+        // else {
+        //     try {
+        //         var UserInfo = {
+        //             Email: email,
+        //             Age: age,
+        //             Contact: contact,
+        //             Password: password,
+        //             Name: name,
+
+        //         }
+        //         setIsShown(true)
+        //         await AsyncStorage.setItem('userData', JSON.stringify(UserInfo))
+        //         console.log("userInfo", UserInfo)
+        //         alert("Done!")
+        //         navigation.navigate('Login')
+        //     } catch (error) {
+        //         console.log("error", error)
+        //     }
+        // }
+        // else{
+        //     if(){}
+        //     else if() {}
+        // }
     }
 
-     if (strongRegex.test(email) === false){
-        setEmail(true)
-        // return false;
-        setNameError(true)
+    const multiSet = async () => {
+        const firstPair = ["@MyApp_user", "value_1"]
+        const secondPair = ["@MyApp_key", "value_2"]
+        try {
+
+
+
+            await AsyncStorage.multiSet([firstPair, secondPair])
+        } catch (e) {
+            //save error
+        }
+
+        console.log("Done.")
     }
-    else{
-        setEmail(true)
-        console.log("email is correct")
-    }
-
-    // else if (password.length < 8){
-    //     setNameError(true)
-    // }
-
-    // else if (!re.test(age)) {
-
-    //     setNameError(true)
-    // }
-
-    // else if (!re.test(contact) || contact.length > 10 || contact.length < 10) {
-
-    //     setNameError(true)
-    // }
-
-    // else {
-    //     try {
-    //         var UserInfo = {
-    //             Email: email,
-    //             Age: age,
-    //             Contact: contact,
-    //             Password: password,
-    //             Name: name,
-
-    //         }
-    //         setIsShown(true)
-    //         await AsyncStorage.setItem('userData', JSON.stringify(UserInfo))
-    //         console.log("userInfo", UserInfo)
-    //         alert("Done!")
-    //         navigation.navigate('Login')
-    //     } catch (error) {
-    //         console.log("error", error)
-    //     }
-    // }
-    // else{
-    //     if(){}
-    //     else if() {}
-    // }
-}
-
-const multiSet = async () => {
-    const firstPair = ["@MyApp_user", "value_1"]
-    const secondPair = ["@MyApp_key", "value_2"]
-    try {
-        
-        
-
-      await AsyncStorage.multiSet([firstPair, secondPair])
-    } catch(e) {
-      //save error
-    }
-  
-    console.log("Done.")
-  }
     return (
         <View style={style.container}>
             <ActivityIndicator animating={isShown} size="large" color="black" />
@@ -269,10 +289,10 @@ const multiSet = async () => {
 
 
                 />
-                {!name ? nameError === true ?  
-                <Text style={{ color: 'red' }}>Name is Required</Text>
-                : null : null}
-                 {/* {nameError === false ? 
+                {!name ? nameError === true ?
+                    <Text style={{ color: 'red' }}>Name is Required</Text>
+                    : null : null}
+                {/* {nameError === false ? 
                 <Text style={{ color: 'red' }}>Name is Required</Text>
                     : null } */}
                 {/* <Text style={{ color: 'red' }}>{ename.name</Text> */}
@@ -292,13 +312,13 @@ const multiSet = async () => {
                 )} */}
                 {/* <Text style={{ color: 'red' }}>{state.emailError}</Text> */}
 
-                {!email ? nameError === true ?  
-                <Text style={{ color: 'red' }}>Email is Required</Text>
-                : null : null}
+                {!email ? nameError === true ?
+                    <Text style={{ color: 'red' }}>Email is Required</Text>
+                    : null : null}
 
                 <Input
                     placeholder='Employee Id'
-                    onChangeText={(value) => { setSalary(value) }}
+                    onChangeText={(value) => { setEmployeeId(value) }}
                     onBlur={() => contactValidator()}
 
                     keyboardType="numeric"
@@ -307,13 +327,13 @@ const multiSet = async () => {
                     <Text style={{ color: 'red' }}>{error.message}</Text>
                 )} */}
                 {/* <Text style={{ color: 'red' }}>{econtact.contactError}</Text> */}
-                {!contact ? nameError === true ?  
-                <Text style={{ color: 'red' }}>Contact is Required</Text>
-                : null : null}
+                {!contact ? nameError === true ?
+                    <Text style={{ color: 'red' }}>Contact is Required</Text>
+                    : null : null}
 
                 <Input
                     placeholder='Employee Salary'
-                    onChangeText={(value) => { setEmployeeId(value) }}
+                    onChangeText={(value) => { setSalary(value) }}
                     onBlur={() => ageValidator()}
 
                     keyboardType="numeric"
@@ -323,9 +343,9 @@ const multiSet = async () => {
                 )} */}
                 {/* <Text style={{ color: 'red' }}>{eage.ageError}</Text> */}
 
-                {!age ? nameError === true ?  
-                <Text style={{ color: 'red' }}>Age is Required</Text>
-                : null : null}
+                {!age ? nameError === true ?
+                    <Text style={{ color: 'red' }}>Age is Required</Text>
+                    : null : null}
 
 
                 <Input
@@ -333,18 +353,18 @@ const multiSet = async () => {
                     onChangeText={(value) => { setDisignation(value) }}
                     onBlur={() => passwordValidator()}
 
-                    // rightIcon={Imagepath.showEye}
-                    // secureTextEntry={secure}
-                    // onPressRight={() => setSecure(!secure)}
+                // rightIcon={Imagepath.showEye}
+                // secureTextEntry={secure}
+                // onPressRight={() => setSecure(!secure)}
                 />
                 {/* {error.field == 'password' && (
                     <Text style={{ color: 'red' }}>{error.message}</Text>
                 )} */}
                 {/* <Text style={{ color: 'red' }}>{epass.passwordError}</Text> */}
 
-                {!password ? nameError === true ?  
-                <Text style={{ color: 'red' }}>It must be 8 chatecters</Text>
-                : null : null}
+                {!password ? nameError === true ?
+                    <Text style={{ color: 'red' }}>It must be 8 chatecters</Text>
+                    : null : null}
 
             </View>
             <Button

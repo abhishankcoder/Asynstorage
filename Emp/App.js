@@ -6,13 +6,14 @@ import Login from './src/Screens/Login';
 import Signup from './src/Screens/Signup';
 import Home from './src/Screens/Home';
 import Show from './src/Screens/Show'
-
+import Employee from './src/Screens/Employee'
 
 const Stack = createStackNavigator();
 function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+      {/* <Stack.Screen options={{ headerShown: false }} name="Employee" component={Employee} /> */}
       <Stack.Screen options={{ headerShown: false }} name="Home" component={Home} />
 
         <Stack.Screen options={{ headerShown: false }} name="Login" component={Login} />
